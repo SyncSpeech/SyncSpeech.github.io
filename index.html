@@ -26,7 +26,7 @@
 
 <div class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
 	<div class="text-center">
-	<h2>SyncSpeech: Low-Latency and Efficient Dual-Stream Text-to-Speech based on Temporal Masked Transformer </h2>
+	<h2>SyncSpeech: Low-Latency and Efficient Text-to-Speech  based on <br> Temporal Masked Transformer </h2>
 
       [<a href="">Paper</a>]
 	  [<a href="">Code</a>]
@@ -40,7 +40,9 @@
 	</div>
 	<p><b>Abstract:</b>
 <!--		We introduce FunAudioLLM, ....-->
-This paper presents a dual-stream text-to-speech (TTS) model, SyncSpeech, capable of receiving streaming text input from upstream models while simultaneously generating streaming speech, facilitating seamless interaction with large language models. SyncSpeech has the following advantages: Low latency, as it begins generating streaming speech upon receiving the second text token; High efficiency, as it decodes all speech tokens corresponding to the each arrived text token in one step. To achieve this, we propose a temporal masked transformer as the backbone of SyncSpeech, combined with token-level duration prediction to predict speech tokens and the duration for the next step. Additionally, we design a two-stage training strategy to improve training efficiency and the quality of generated speech. We evaluated the SyncSpeech on both English and Mandarin datasets. Compared to the recent dual-stream TTS models, SyncSpeech significantly reduces the first packet delay of speech tokens and accelerates the real-time factor. Moreover, with the same data scale, SyncSpeech achieves performance comparable to that of traditional autoregressive-based TTS models in terms of both speech quality and robustness. 
+Current text-to-speech (TTS) models face a persistent limitation: autoregressive (AR) models suffer from low generation efficiency, while modern non-autoregressive (NAR) models experience high latency due to their unordered temporal nature. To bridge this divide, we introduce SyncSpeech, an efficient and low-latency TTS model based on the proposed Temporal Mask Transformer (TMT) paradigm. TMT unifies the temporal ordering of AR generation with the parallel decoding of NAR models within a single paradigm.
+Specifically, a two-stage training strategy with tailored sequence construction is designed for TMT to handle streaming text input. During inference, SyncSpeech achieves high efficiency by decoding all speech tokens corresponding to each newly arrived text token in a single step, and low latency by beginning to generate speech immediately upon receiving the second text token.
+Evaluations show that SyncSpeech maintains speech quality comparable to state-of-the-art TTS models, while reducing first-packet latency by a factor of 5.8 and improving the real-time factor by a factor of 8.8.
 	<p style="text-align: center;">
 		<img src="SyncSpeech.png" height="400" width="1024">
 	</p>
@@ -49,57 +51,42 @@ This paper presents a dual-stream text-to-speech (TTS) model, SyncSpeech, capabl
 
 <div class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
 	<h2 id="FaceTTS" style="text-align: center;">Zero-shot In-context Learning</h2>
-		<td>We utilize out-of-domain expressive speech prompts to control both prosody and speaker identity of the generated speech. Notably, the training set consists of only 580 hours of English data and 2,000 hours of Chinese data. Consequently, the following generated speech is primarily intended to verify the in-context learning ability. We will conduct experiments on a large-scale dataset to further enhance its in-context learning capabilities.</td>
 		<div class="table-responsive pt-3">
 			<table class="table table-hover pt-2">
 				<thead>
 				<tr>
 					<th style="vertical-align : middle;text-align: center">Speech Prompt</th>
 					<th style="vertical-align : middle;text-align: center">Text</th>
-					<th style="vertical-align : middle;text-align: center">Generated Speech </th>
+					<th style="vertical-align : middle;text-align: center">CosyVoice2</th>
+					<th style="vertical-align : middle;text-align: center">SyncSpeech</th>
 				</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 300px;"><source src="wavs/Lab_zeroshot_en/surprised_high_uttid_7_prompt.wav" autoplay/>Your browser does not support the audio element.</audio><br> </td>
-						<td style="vertical-align: middle; height: 100px;">He actually had so many papers accepted at once! That's incredible!</td>
-						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 300px;"><source src="wavs/Lab_zeroshot_en/surprised_high_uttid_7.wav" autoplay/>Your browser does not support the audio element.</audio><br> </td>
-					</tr>
-					<tr>
-						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 300px;"><source src="wavs/Lab_zeroshot_en/happy_high_uttid_8_prompt.wav" autoplay/>Your browser does not support the audio element.</audio><br> </td>
-						<td style="vertical-align: middle; height: 100px;"> As the sunlight warmed my face and a gentle breeze brushed past, it felt like all my worries were blown away, leaving me feeling light and at ease.</td>
-						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 300px;"><source src="wavs/Lab_zeroshot_en/happy_high_uttid_8.wav" autoplay/>Your browser does not support the audio element.</audio><br> </td>
-					</tr>
-					<tr>
-						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 300px;"><source src="wavs/Lab_zeroshot_en/sad_high_uttid_19_prompt.wav" autoplay/>Your browser does not support the audio element.</audio><br> </td>
-						<td style="vertical-align: middle; height: 100px;">Math is so hard. No matter how hard I try to think, it feels like I still can't solve these problems. What should I do?</td>
-						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 300px;"><source src="wavs/Lab_zeroshot_en/sad_high_uttid_19.wav" autoplay/>Your browser does not support the audio element.</audio><br> </td>
-					</tr>
-					<tr>
-						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 300px;"><source src="wavs/Lab_zeroshot_en/disgusted_low_uttid_35_prompt.wav" autoplay/>Your browser does not support the audio element.</audio><br> </td>
-						<td style="vertical-align: middle; height: 100px;">The artist spoke about his personal life and his artwork.</td>
-						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 300px;"><source src="wavs/Lab_zeroshot_en/disgusted_low_uttid_35.wav" autoplay/>Your browser does not support the audio element.</audio><br> </td>
-					</tr>
-					<tr>
-						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 300px;"><source src="wavs/Lab_zeroshot_zh/disgusted_high_uttid_1_prompt.wav" autoplay/>Your browser does not support the audio element.</audio><br> </td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 250px;"><source src="wavs/Lab_zeroshot_zh/disgusted_high_uttid_1_prompt.wav" autoplay/>Your browser does not support the audio element.</audio><br> </td>
 						<td style="vertical-align: middle; height: 100px;">在这种时候, 他能睡一天，把苦恼交给了梦。</td>
-						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 300px;"><source src="wavs/Lab_zeroshot_zh/disgusted_high_uttid_1.wav" autoplay/>Your browser does not support the audio element.</audio><br> </td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 250px;"><source src="wavs/Lab_zeroshot_zh/disgusted_high_uttid_1_cosy.wav" autoplay/>Your browser does not support the audio element.</audio><br> </td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 250px;"><source src="wavs/Lab_zeroshot_zh/disgusted_high_uttid_1.wav" autoplay/>Your browser does not support the audio element.</audio><br> </td>
 					</tr>
 					<tr>
-						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 300px;"><source src="wavs/Lab_zeroshot_zh/fearful_high_uttid_5_prompt.wav" autoplay/>Your browser does not support the audio element.</audio><br> </td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 250px;"><source src="wavs/Lab_zeroshot_zh/fearful_high_uttid_5_prompt.wav" autoplay/>Your browser does not support the audio element.</audio><br> </td>
 						<td style="vertical-align: middle; height: 100px;">我不敢走进去，感觉那个有东西在等着我，怎么办。</td>
-						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 300px;"><source src="wavs/Lab_zeroshot_zh/fearful_high_uttid_5.wav" autoplay/>Your browser does not support the audio element.</audio><br> </td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 250px;"><source src="wavs/Lab_zeroshot_zh/fearful_high_uttid_5_cosy.wav" autoplay/>Your browser does not support the audio element.</audio><br> </td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 250px;"><source src="wavs/Lab_zeroshot_zh/fearful_high_uttid_5.wav" autoplay/>Your browser does not support the audio element.</audio><br> </td>
 					</tr>
 					<tr>
-						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 300px;"><source src="wavs/Lab_zeroshot_zh/happy_high_uttid_24_prompt.wav" autoplay/>Your browser does not support the audio element.</audio><br> </td>
-						<td style="vertical-align: middle; height: 100px;">今天买了个折叠椅，坐在阳台上晒太阳，风吹过来，忽然觉得自己像是被世界温柔拥抱了一下。</td>
-						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 300px;"><source src="wavs/Lab_zeroshot_zh/happy_high_uttid_24.wav" autoplay/>Your browser does not support the audio element.</audio><br> </td>
-					</tr>
-					<tr>
-						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 300px;"><source src="wavs/Lab_zeroshot_zh/sad_low_uttid_31_prompt.wav" autoplay/>Your browser does not support the audio element.</audio><br> </td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 250px;"><source src="wavs/Lab_zeroshot_zh/sad_low_uttid_31_prompt.wav" autoplay/>Your browser does not support the audio element.</audio><br> </td>
 						<td style="vertical-align: middle; height: 100px;">泰勒维尔是一个位于美国伊利诺伊州克里斯蒂安县的城市。</td>
-						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 300px;"><source src="wavs/Lab_zeroshot_zh/sad_low_uttid_31.wav" autoplay/>Your browser does not support the audio element.</audio><br> </td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 250px;"><source src="wavs/Lab_zeroshot_zh/sad_low_uttid_31_cosy.wav" autoplay/>Your browser does not support the audio element.</audio><br> </td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 250px;"><source src="wavs/Lab_zeroshot_zh/sad_low_uttid_31.wav" autoplay/>Your browser does not support the audio element.</audio><br> </td>
 					</tr>
+					<tr>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 250px;"><source src="wavs/Lab_zeroshot_zh/happy_high_uttid_24_prompt.wav" autoplay/>Your browser does not support the audio element.</audio><br> </td>
+						<td style="vertical-align: middle; height: 100px;">今天买了个折叠椅，坐在阳台上晒太阳，风吹过来，忽然觉得自己像是被世界温柔拥抱了一下。</td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 250px;"><source src="wavs/Lab_zeroshot_zh/happy_high_uttid_24_cosy.wav" autoplay/>Your browser does not support the audio element.</audio><br> </td>
+						<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 250px;"><source src="wavs/Lab_zeroshot_zh/happy_high_uttid_24.wav" autoplay/>Your browser does not support the audio element.</audio><br> </td>
+					</tr>
+
 				</tbody>
 			</table>
 			<!-- The above real speech samples are sequentially Sample2, Sample1, Sample2, Sample2, Sample1, Sample1. -->
@@ -194,7 +181,7 @@ This paper presents a dual-stream text-to-speech (TTS) model, SyncSpeech, capabl
 </div>
 
 
-<div class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
+<!-- <div class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
 	<h2 id="TextTTS" style="text-align: center;">Seed test-zh</h2>
 	<p> </p>
 		<div class="table-responsive pt-3">
@@ -263,61 +250,9 @@ This paper presents a dual-stream text-to-speech (TTS) model, SyncSpeech, capabl
 			</tbody>
 		</table>
 		</div>
-</div>
+</div> -->
 
 
-<div class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
-	<h2 id="TextTTS" style="text-align: center;">Seed test-hard</h2>
-	<p> </p>
-		<div class="table-responsive pt-3">
-			<table class="table table-hover pt-2" style="width: 100%; border-collapse: collapse;">
-			<thead>
-				<tr>
-					<th style="vertical-align : middle;text-align: center">Text</th>
-					<th style="vertical-align : middle;text-align: center">Speaker Prompt</th>
-					<th style="vertical-align : middle;text-align: center">CosyVoice				
-						<br>
-						<span style="font-size: small; display: block; margin-top: 2px;">FPL-A:0.22, FPL-L:1.22, RTF:0.44</span>
-					</th>
-					<th style="vertical-align : middle;text-align: center">CosyVoice2				
-						<br>
-						<span style="font-size: small; display: block; margin-top: 2px;">FPL-A:0.22, FPL-L:0.35, RTF:0.44</span>
-					</th>
-					<th style="vertical-align : middle;text-align: center">SyncSpeech				
-						<br>
-						<span style="font-size: small; display: block; margin-top: 2px;">FPL-A:0.05, FPL-L:0.10, RTF:0.08</span>
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>白鸡装白罐白鸡爱吃白米饭，白鸡爱下白鸡蛋。白手捡起白鸡蛋，白蛋装满小白罐。</td>
-					<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 200px;"><source src="wavs/Seed_Hard/prompt_wav/raokouling-0040.wav" autoplay/>Your browser does not support the audio element.</audio><br> </td>
-					<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 225px;"><source src="wavs/Seed_Hard/cosyvoice1_reap/raokouling-0040.wav" autoplay/>Your browser does not support the audio element.</audio><br> </td>
-					<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 225px;"><source src="wavs/Seed_Hard/cosyvoice2_reap/raokouling-0040.wav" autoplay/>Your browser does not support the audio element.</audio><br> </td>
-					<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 225px;"><source src="wavs/Seed_Hard/SyncSpeech/raokouling-0040.wav" autoplay/>Your browser does not support the audio element.</audio><br> </td>
-				</tr>
-				<tr>
-					<td>如果做不到你的是你的我的是我的，就做不到你的是我的，我的是你的，结果就有可能是我的是我的，你的还是我的。</td>
-					<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 200px;"><source src="wavs/Seed_Hard/prompt_wav/raokouling-0179.wav" autoplay/>Your browser does not support the audio element.</audio><br> </td>
-					<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 225px;"><source src="wavs/Seed_Hard/cosyvoice1_reap/raokouling-0179.wav" autoplay/>Your browser does not support the audio element.</audio><br> </td>
-					<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 225px;"><source src="wavs/Seed_Hard/cosyvoice2_reap/raokouling-0179.wav" autoplay/>Your browser does not support the audio element.</audio><br> </td>
-					<td style="vertical-align : middle;text-align:center;"><audio controls="controls" style="width: 225px;"><source src="wavs/Seed_Hard/SyncSpeech/raokouling-0179.wav" autoplay/>Your browser does not support the audio element.</audio><br> </td>
-				</tr>
-			</tbody>
-		</table>
-		</div>
-</div>
-
-
-
-<div class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
-	<h2 id="TextTTS" style="text-align: center;">Rebuttal: Speech Token Accuracy curves of two-stage training and single-stage training </h2>
-	<td>The accuracy curve of Speech tokens during the training phase, where the green line represents the two-stage training process and the pink line represents the one-stage training process. It is evident that two-stage training achieves significantly higher training efficiency and accuracy compared to one-stage training.</td>
-	<p style="text-align: center;">
-		<img src="Train_nll_acc.svg" height="400" width="1024">
-	</p>
-</div>
 
 
 
